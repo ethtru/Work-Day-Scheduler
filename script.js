@@ -22,5 +22,60 @@ $(function () {
   // TODO: Add code to display the current date in the header of the page.
 });
 
-var today = dayjs().format('dddd, MMMM D, YYYY h:mm A');
-$('#currentDay').text(today);
+
+var today = dayjs().format("dddd, MMMM D, YYYY h:mm A");
+$("#currentDay").text(today);
+
+
+function createTimeBlock(hour, isAM) {
+  var timeBlock = document.createElement("div");
+  timeBlock.id = `hour-${hour}`;
+  timeBlock.className = `row time-block ${getTimeBlockClass(hour)}`;
+
+  var hourLabel = document.createElement("div");
+  hourLabel.className = "col-2 col-md-1 hour text-center py-3";
+  hourLabel.textContent = `${hour}${isAM ? "AM" : "PM"}`;
+
+  var descriptionTextarea = document.createElement("textarea");
+  descriptionTextarea.className = "col-8 col-md-10 description";
+  descriptionTextarea.rows = "3";
+
+  const saveButton = document.createElement("button");
+  saveButton.className = "btn saveBtn col-2 col-md-1";
+  saveButton.setAttribute("aria-label", "save");
+  saveButton.innerHTML = '<i class="fas fa-save" aria-hidden="true"></i>';
+
+  timeBlock.appendChild(hourLabel);
+  timeBlock.appendChild(descriptionTextarea);
+  timeBlock.appendChild(saveButton);
+
+  return timeBlock;
+}
+
+
+function getTimeBlockClass(hour) {
+var currentHour = new Date().getHours();
+  if (hour < currentHour) {
+    return "past";
+  } else if (hour === currentHour) {
+    return "present";
+  } else {
+    return "future";
+  }
+}
+
+
+function createTimeBlocks() {
+  var timeBlockContainer = document.getElementById("time-block-container");
+
+  for (let hour = 9; hour <= 17; hour++) {
+    // 9 AM to 5 PM
+    var isAM = hour < 12;
+    var displayHour = hour <= 12 ? hour : hour - 12;
+    var timeBlock = createTimeBlock(displayHour, isAM);
+    timeBlockContainer.appendChild(timeBlock);
+  }
+}
+
+// Call the function to create time blocks when the page loads
+document.addEventListener("DOMContentLoaded", createTimeBlocks);
