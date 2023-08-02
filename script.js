@@ -67,4 +67,4 @@ setInterval(createTimeBlocks, 30000);
 // Call the function to create time blocks when the page loads
 document.addEventListener("DOMContentLoaded", createTimeBlocks);
 
-//try google co-pilot and attach to vs code 
+
